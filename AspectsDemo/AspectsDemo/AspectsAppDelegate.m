@@ -10,7 +10,17 @@
 #import "AspectsViewController.h"
 #import "Aspects.h"
 
+@interface xx : UIViewController
+@end
+@implementation xx
+
+- (void)buttonPressed:(id)sender {
+    NSLog(@"hshs");
+}
+@end
+
 @implementation AspectsAppDelegate
+
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     AspectsViewController *aspectsController = [AspectsViewController new];
@@ -21,8 +31,11 @@
 
     // Ignore hooks when we are testing.
     if (!NSClassFromString(@"XCTestCase")) {
-        [aspectsController aspect_hookSelector:@selector(buttonPressed:) withOptions:0 usingBlock:^(id info, id sender) {
+        [AspectsViewController aspect_hookSelector:@selector(buttonPressed:) withOptions:0 usingBlock:^(id info, id sender) {
             NSLog(@"Button was pressed by: %@", sender);
+        } error:NULL];
+        [xx aspect_hookSelector:@selector(buttonPressed:) withOptions:0 usingBlock:^(id info, id sender) {
+            NSLog(@"Button was pressed by2: %@", sender);
         } error:NULL];
 
         [aspectsController aspect_hookSelector:@selector(viewWillLayoutSubviews) withOptions:0 usingBlock:^{
